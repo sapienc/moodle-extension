@@ -1,0 +1,1 @@
+1. Creating a child-theme: https://www.youtube.com/playlist?list=PLnNniujrnp0nQmC3_AUPdlblfcsqDlCBh (github: https://github.com/kristian-94/moodle-theme_kristian/commits/master)

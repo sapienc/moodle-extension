@@ -1,0 +1,498 @@
+// ==================== Overriding Boost Theme ====================
+#page.drawers { margin-top: $navbar-height; }
+.navbar.fixed-top { height: $navbar-height; }
+.editmode-switch-form { margin-bottom: 0; }
+
+.aalink.focus, .aalink:focus,
+a.focus.autolink, a.autolink:focus,
+#page-footer a:not([class]).focus, #page-footer a:not([class]):focus,
+.arrow_link.focus, .arrow_link:focus,
+a:not([class]).focus, a:not([class]):focus,
+.activityinstance>a.focus, .activityinstance>a:focus {
+    outline-color: black;
+    border-radius: 10px;
+    background-color: unset;
+    box-shadow: unset;
+    color: unset;
+    text-decoration: unset;
+}
+
+
+// ==================== Custom styles ====================
+body {
+    background: #F4F3F3; // we also assuming that the `$course-content-maxwidth` variable is set to `100%`
+}
+
+.navbar {
+    // box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+
+    .logo {
+        scale: 0.9;
+    }
+
+    // &-site-short-name {}
+    
+    &-site-full-name {
+        max-width: 180px; // 150px
+        white-space: pre-line;
+        line-height: 15px; // 15px
+        font-size: 0.7em; // 0.6em;
+    }
+}
+
+// -------------------- Frontpage --------------------
+.pagelayout-frontpage {
+
+    $frontpage-side-gaps: 2.5rem; // 3rem;
+    @mixin frontpage-set-custom-paddings() {
+        padding-left: $frontpage-side-gaps;
+        padding-right: $frontpage-side-gaps
+    }
+
+    @mixin frontpage-set-custom-margins() {
+        margin-left: $frontpage-side-gaps;
+        margin-right: $frontpage-side-gaps
+    }
+    
+    // -------------------- [ OLD SOLUTIONS OF CUSTOMIZATION, WHICH WERE DECLINED FURTHER ] --------------------
+    // Hiding the `secondarymoremenu` in the `drawers.mustache` file for `frontpage`
+    // It was decided to do so, because there is no reason to override the `drawers.mustache` and `drawers.php` files itselves
+    // with these little changes. It was also done so to save compatibility with further Moodle versions
+    
+    // P.S. to return the `output.full_header` back, you can also comment the `function full_header()` in `theme\pimu_boost\classes\output\core_renderer.php`
+    /*
+        .header-hidden-secondarymoremenu ~ .secondary-navigation {
+            display: none;
+        }
+    */
+
+    // -------------------- [ NEW SOLUTIONS OF CUSTOMIZATION VIA CSS ] --------------------
+    
+    // ----- The main page header
+    #page-header { display: none; } // firstly it was decided to be hidden via the `function full_header()` in `core_renderer.php`
+    // ----- The main page kinda course navigation (it is not needed on the main frontpage)
+    .secondary-navigation { display: none; }
+
+    // ----- Frontpage in an edit mode -----
+    &.editing {
+        // limitedwidth format-site course path-site chrome dir-ltr lang-ru yui-skin-sam yui3-skin-sam new-pimu-environment-loc pagelayout-frontpage course-1 context-2 editing uses-drawers jsenabled has-region-side-pre used-region-side-pre
+        // limitedwidth format-site course path-site chrome dir-ltr lang-ru yui-skin-sam yui3-skin-sam new-pimu-environment-loc pagelayout-frontpage course-1 context-2 uses-drawers jsenabled
+
+        .btn.activity-add {
+            width: auto; // it works thanks to `.pimu-welcome-sections .content` has a `flex` now
+            @include frontpage-set-custom-margins();
+        }
+    }
+
+
+    // ----- Getting rid of paddings in a Frontpage -----
+    // These styles below could be only for a Frontpage
+    #page.drawers {
+        &, div[role="main"] {
+            padding-left: unset;
+            padding-right: unset;
+        }
+
+        &.show-drawer-right {
+            padding-right: unset;
+        }
+
+        .main-inner {
+            padding-top: unset;
+            padding-left: unset;
+            padding-right: unset;
+            margin-top: unset; // margin-top: 3rem;
+            margin-bottom: unset;
+
+            // Making a custom BG
+            // background: transparent;
+            // .pimu-frontpage-layout { background: white; }
+            // .pimu-frontpage-blocks { background: white; }
+
+            // #page-content {
+            //     padding-left: $page-content-side-paddings;
+            //     padding-right: $page-content-side-paddings;
+            // }
+        }
+
+        // Adding paddings to notification block
+        .notifications {
+            @include frontpage-set-custom-margins();
+            
+            .alert {
+                margin-top: 1rem;
+            }
+        }
+    }
+
+    // ----- Frontpage main welcome section -----
+    .pimu-frontpage-layout {
+        .pimu-frontpage-edit-button {
+            a {
+                display: block;
+                width: 100%;
+                padding: 1rem;
+                color: #565656;
+                border: 1px solid transparent;
+                border-color: #bbb;
+                border-radius: 0.5rem;
+                background-color: #f8f8f8;
+
+                transition: all 0.12s ease-in-out;
+                
+                &:hover {
+                    border-color: #909090;
+                    background-color: #eeeeee;
+                }
+            }
+        }
+
+        .pimu-frontpage-edit-button,
+        .pimu-welcome-sections .course-section-header,
+        .pimu-welcome-sections .course-description-item .description-inner > div > *:not(.block_slider) {
+            @include frontpage-set-custom-paddings();
+        }
+
+        .pimu-welcome-sections{
+            .section {
+                padding-top: unset;
+                padding-bottom: unset;
+            }
+
+            .content {
+                display: flex;
+                flex-direction: column;
+
+                // Getting rid of the margin above the slider:
+                & > div {
+                    margin: unset !important;
+                }
+            }
+        }
+    }
+
+    .pimu-frontpage-blocks {
+        @include frontpage-set-custom-paddings();
+
+        // Stretching the Course Search Field
+        .simplesearchform {
+            width: 100%;
+            
+            .input-group {
+                width: 100%;
+            }
+        }
+    }
+
+    .buttons {
+        @include frontpage-set-custom-paddings();
+
+        .singlebutton, .singlebutton .btn  {
+            width: 100%;
+        }
+    }
+
+    // ----- Frontpage sliders styles -----
+    // +++++++++++++++ Variables +++++++++++++++
+    $slider-max-height: 500px;
+
+    $slider-navigation-buttons-rgb-color: 255 255 255;
+
+    @mixin slider-navigation-buttons-bg-color($rgbColor) {
+        background: rgba($rgbColor, 0.5); // or rgb($rgbColor / 50%);
+        &:hover { background: rgba($rgbColor, 0.8); }
+    }
+    // +++++++++++++++++++++++++++++++++++++++++
+
+    .block_slider
+    {
+        // ----- BX-Slider
+        .bx-wrapper {
+            border: unset;
+            box-shadow: unset;
+            margin: unset;
+        }
+
+        .bx-viewport {
+            max-height: $slider-max-height;
+        }
+
+        .bx-controls {
+            &-direction {
+                $left-direction-icon-code: "\f053";
+                $right-direction-icon-code: "\f054";
+                a {
+                    width: unset;
+                    height: unset;
+                    font-size: 0;
+                    text-indent: initial;
+
+                    &:hover { text-decoration: none; }
+
+                    &::before {
+                        display: block;
+                        font-family: FontAwesome;
+                        font-size: 1.5rem;
+                    }
+
+                    &.bx-prev {
+                        &::before { content: $left-direction-icon-code; }
+                    }
+                    &.bx-next {
+                        &::before { content: $right-direction-icon-code; }
+                    }
+                    &.bx-prev, &.bx-next {
+                        padding: 0.3rem 0.8rem;
+                        border-radius: 0.6rem;
+                        background: none;
+                        @include slider-navigation-buttons-bg-color(  $slider-navigation-buttons-rgb-color );
+                    }
+                }
+            }
+        }
+
+        .bxslider, .bxslide {
+            @media (min-width: 768px) {
+                height: 100%;
+            }
+        }
+
+        .bxslide {
+            & > a {
+                &:hover {
+                    transition: all 0.3s ease-in-out;
+
+                    & img {
+                        transform: scale(1.1);
+                    }
+                }
+                & img { transition: all 0.3s ease-in-out; }
+            }
+
+            .bx-caption, .bxcaption {
+
+            }
+        }
+
+        // ----- SliderJS
+        .slider {
+            div[class^="slides"] {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                align-items: center;
+            }
+
+            .slidesjs-navigation {
+                position: absolute;
+                top: 50%;
+                z-index: 100;
+
+                &.slidesjs-previous { left: 0; }
+                &.slidesjs-next { right: 0; }
+
+                &:hover { text-decoration: none; }
+
+                .icon {
+                    width: auto;
+                    height: auto;
+                    font-size: 1.4rem;
+                    margin: 0 1rem;
+
+                    border-radius: 0.6rem; // 10px;
+                    padding: 0.8rem 1rem; // 12px 15px;
+
+                    @include slider-navigation-buttons-bg-color(  $slider-navigation-buttons-rgb-color );
+                }
+            }
+
+            .slidesjs-pagination {
+                list-style: none;
+            }
+        }
+    }
+
+    // ----- Frontpage courses section -----
+    .courses {
+        
+        &.frontpage-course-list-enrolled {
+
+        }
+    }
+}
+
+
+// -------------------- Courses --------------------
+.pagelayout-course {
+
+    #page.drawers {
+
+        .main-inner {
+            
+            #page-content {
+                padding-left: $page-content-side-paddings;
+                padding-right: $page-content-side-paddings;
+            }
+        }
+
+        #page-header {
+
+            // position: sticky;
+            // top: 0;
+            // background: white;
+            // z-index: 1000;
+
+
+            .singlebutton { display: none; }
+        }
+
+        // .secondary-navigation {
+        //     position: sticky;
+        //     top: 0; // 52px if the #page-header also has position: sticky;
+        //     z-index: 999;
+        // }
+
+    }
+
+    // -------------------- Sticky Headers in Course --------------------
+    // .course-content {
+    //     ul[class^="flexsections"] {
+    
+    //         position: relative;
+    //         background: white;
+    //         z-index: 20; // to overflow and cover the `.course-section-header`
+    //         // outline: 2px solid red;
+    
+    //         .dropdown-menu.menu.dropdown-menu-right {
+    //             position: sticky !important;
+    //             transform: translate3d(0, 25px, 80px) !important;
+    //         }
+    
+    //         .section .course-section-header { //li > div:first-child {
+    //             position: sticky;
+    //             top: -1px;
+    //             padding: 5px 0;
+    //             background: white;
+    //             z-index: 10;
+    
+    //             // &::before {
+    //             //     display: block;
+    //             //     width: 100%;
+    //             //     height: 100%;
+    //             //     background: red;
+    //             //     left: 0px;
+    //             //     position: absolute;
+    //             //     outline: 2px solid black;
+    //             //     content: "asd";
+    //             // }
+    //         }
+    
+    //         .flexsections-level-1 {
+    //             .section {
+                    
+    //                 position: relative;
+    //                 // background: white;
+    
+    //                 // .course-section-header {
+    //                 //     &::before {
+    //                 //         content: ""; // content: "asd";
+    //                 //         display: block;
+    //                 //         position: absolute;
+    
+    //                 //         left: -1rem;
+    
+    //                 //         width: 100%;
+    //                 //         height: 100%;
+    
+    //                 //         background: white; // background: red;
+    //                 //         // outline: 2px solid black;
+                            
+    //                 //     }
+    //                 // }
+    
+    //                 // &::before {
+    //                 //     content: "";
+    //                 //     display: block;
+    //                 //     position: absolute;
+    
+    //                 //     top: -0.6rem; //-4px;
+    //                 //     left: -1rem;
+    
+    //                 //     width: 1rem;
+    //                 //     height: 100%;
+    
+    //                 //     background: white;
+    
+    //                 //     /* z-index: 1000; */
+                        
+                        
+    //                 // }
+    //             }
+    
+    //         }
+    //     }
+    // }
+}
+
+// -------------------- Course Resource --------------------
+.pagelayout-incourse {
+    #page.drawers {
+
+        .main-inner {
+            
+            #page-content {
+                padding-left: $page-content-side-paddings;
+                padding-right: $page-content-side-paddings;
+            }
+        }   
+
+    }
+}
+
+.charts-row-place {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    /*max-height: 200px;*/
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+    overflow: auto;
+
+    .chart-block {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; // center
+        align-items: center;
+        width: 100%;
+        min-width: 200px;
+        padding: 0 2rem;
+
+        .chart-container {
+            position: relative;
+
+            .circle-progress-chart-center-text {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                top: 5px;
+                left: 2px;
+                margin: 0;
+                font-size: 24px;
+                text-align: center;
+                /* font-weight: bold; */
+            }
+        }
+
+        .chart-title {
+            margin: 0;
+            font-weight: bold;
+            text-align: center;
+        }
+    }
+}
